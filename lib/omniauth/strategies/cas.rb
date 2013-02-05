@@ -26,6 +26,10 @@ module OmniAuth
       option :logout_url,           '/logout'
       option :uid_key,              'user'
 
+      option :use_client_cert?, false
+      option :client_cert, nil
+      option :client_cert_key, nil
+
       # As required by https://github.com/intridea/omniauth/wiki/Auth-Hash-Schema
       AuthHashSchemaKeys = %w{name email first_name last_name location image phone}
       info do

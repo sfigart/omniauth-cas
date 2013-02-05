@@ -50,6 +50,9 @@ Other configuration options:
   * `uid_key` - The user data attribute to use as your user's unique identifier. Defaults to `'user'` (which usually contains the user's login name)
   * `ca_path` - Optional when `ssl` is `true`. Sets path of a CA certification directory. See [Net::HTTP][net_http] for more details
   * `disable_ssl_verification` - Optional when `ssl` is true. Disables verification.
+  * `use_client_cert` - TRUE to add a client certificate.
+  * `client_cert` - Optional when `use_client_cert` is false. Full path to certificate public key
+  * `client_cert_key` - Optional when `use_client_cert` is false. Full path to certificate private key
 
 ## Migrating from OmniAuth 0.3
 

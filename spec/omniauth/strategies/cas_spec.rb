@@ -143,4 +143,28 @@ describe OmniAuth::Strategies::CAS, type: :strategy do
     end
   end
 
+  describe 'CAS Option test' do
+    context "default client_certificate options" do
+      subject { MyCasProvider.new(app, name: :cas, host: 'cas.example.org', uid_key: :employeeid).options }
+
+        it { should include :use_client_cert? }
+        it { should include :client_cert }
+        it { should include :client_cert_key }
+
+        its(:use_client_cert?) { should be_false }
+        its(:client_cert)     { should be_nil }
+        its(:client_cert_key) { should be_nil }
+    end
+
+    context "client_certificate options" do
+      subject { MyCasProvider.new(app, name: :cas, host: 'cas.example.org', uid_key: :employeeid,
+                                  use_client_cert?: true, client_cert: '/etc/ssl/cert.cer', client_cert_key: '/etc/ssl/cert.key'
+                                 ).options }
+
+        its(:use_client_cert?) { should be_true }
+        its(:client_cert)     { should == '/etc/ssl/cert.cer' }
+        its(:client_cert_key) { should == '/etc/ssl/cert.key' }
+    end
+
+  end
 end

@@ -82,11 +82,23 @@ module OmniAuth
             http.verify_mode = OpenSSL::SSL::VERIFY_NONE if @options.disable_ssl_verification?
             http.ca_path = @options.ca_path
           end
+
+          add_client_certificate(http) if @options.use_client_cert?
+
           http.start do |c|
             response = c.get "#{@uri.path}?#{@uri.query}", VALIDATION_REQUEST_HEADERS.dup
             result = response.body
           end
           result
+        end
+
+        # adds the client certificate to the http request if the client_cert and
+        # client_cert_key files exist
+        def add_client_certificate(http)
+          if File.exists?(@options.client_cert) && File.exists?(@options.client_cert_key)
+            http.cert = OpenSSL::X509::Certificate.new(File.read(@options.client_cert))
+            http.key  = OpenSSL::PKey::RSA.new(File.read(@options.client_cert_key))
+          end
         end
 
       end
